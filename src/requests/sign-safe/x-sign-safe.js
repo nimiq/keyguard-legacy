@@ -11,18 +11,18 @@ export default class XSignSafe extends MixinRedux(XElement) {
     html() { return `
         <h1>Authorize Transaction</h1>
         <h2>Enter your passphrase below to authorize this transaction:</h2>
-        
+
         <div class="transaction">
             <div class="center">
                 <x-identicon sender></x-identicon>
                 <i class="arrow material-icons">arrow_forward</i>
                 <x-identicon recipient></x-identicon>
             </div>
-        
+
             <div class="center">
                 <div class="x-value"><span class="value"></span> NIM</div>
             </div>
-        
+
             <div class="row">
                 <label>From</label>
                 <div class="row-data">
@@ -30,14 +30,21 @@ export default class XSignSafe extends MixinRedux(XElement) {
                     <x-address-no-copy sender></x-address-no-copy>
                 </div>
             </div>
-        
+
             <div class="row">
                 <label>To</label>
                 <div class="row-data">
                     <x-address-no-copy recipient></x-address-no-copy>
                 </div>
             </div>
-        
+
+            <div class="extra-data-section display-none row">
+                <label>Note</label>
+                <div class="row-data">
+                    <div class="extra-data"></div>
+                </div>
+            </div>
+
             <div class="fee-section display-none row">
                 <label>Fee</label>
                 <div class="row-data">
@@ -45,7 +52,7 @@ export default class XSignSafe extends MixinRedux(XElement) {
                 </div>
             </div>
         </div>
-        
+
         <x-authenticate button-label="Confirm"></x-authenticate>
         `;
     }
@@ -88,7 +95,7 @@ export default class XSignSafe extends MixinRedux(XElement) {
         const { transaction, myLabel } = changes;
 
         if (transaction) {
-            const { sender, recipient, value, fee } = transaction;
+            const { sender, recipient, value, fee, extraData } = transaction;
 
             this.$senderAddress.address = sender;
             this.$senderIdenticon.address = sender;
@@ -97,6 +104,11 @@ export default class XSignSafe extends MixinRedux(XElement) {
             this.$recipientIdenticon.address = recipient;
 
             this.$('.value').textContent = (value/1e5).toString();
+
+            if (extraData && extraData.length > 0) {
+                this.$('.extra-data-section').classList.remove('display-none');
+                this.$('.extra-data').textContent = extraData;
+            }
 
             if (fee !== 0) {
                 this.$('.fee-section').classList.remove('display-none');

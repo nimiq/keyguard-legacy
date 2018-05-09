@@ -1,3 +1,5 @@
+import Utf8Tools from '/libraries/secure-utils/utf8-tools/utf8-tools.js';
+
 export default class Key {
     /**
      * @param {Uint8Array|string} buf
@@ -63,10 +65,11 @@ export default class Key {
      * @param {number} value Number of Satoshis to send.
      * @param {number} fee Number of Satoshis to donate to the Miner.
      * @param {number} validityStartHeight The validityStartHeight for the transaction.
+     * @param {string} extraData Text to add to the transaction, requires extended format
      * @param {string} format basic or extended
      * @returns {Transaction} A prepared and signed Transaction object. This still has to be sent to the network.
      */
-    async createTransaction(recipient, value, fee, validityStartHeight, format) {
+    async createTransaction(recipient, value, fee, validityStartHeight, extraData, format) {
         if (typeof recipient === 'string') {
             recipient = await Key.getUnfriendlyAddress(recipient);
         }
@@ -74,6 +77,22 @@ export default class Key {
         if (format === 'basic') {
             const transaction = new Nimiq.BasicTransaction(this._keyPair.publicKey, recipient, value, fee, validityStartHeight);
             transaction.signature = Nimiq.Signature.create(this._keyPair.privateKey, this._keyPair.publicKey, transaction.serializeContent());
+            return transaction;
+        }
+
+        if (format === 'extended') {
+            const transaction = new Nimiq.ExtendedTransaction(
+                this._keyPair.publicKey.toAddress(), Nimiq.Account.Type.BASIC,
+                recipient, Nimiq.Account.Type.BASIC,
+                value,
+                fee,
+                validityStartHeight,
+                Nimiq.Transaction.Flag.NONE,
+                Utf8Tools.stringToUtf8ByteArray(extraData),
+            );
+            const signature = Nimiq.Signature.create(this._keyPair.privateKey, this._keyPair.publicKey, transaction.serializeContent());
+            const proof = Nimiq.SignatureProof.singleSig(this._keyPair.publicKey, signature);
+            transaction.proof = proof.serialize();
             return transaction;
         }
 

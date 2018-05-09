@@ -23,7 +23,7 @@
 .transaction label {
     display: inline-block;
     width: 88px;
-    text-align: center;
+    text-align: left;
     text-transform: uppercase;
     letter-spacing: 0.16em;
     font-size: 13px;
