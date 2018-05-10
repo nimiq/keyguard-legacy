@@ -39,7 +39,7 @@ export default class XSignSafe extends MixinRedux(XElement) {
             </div>
 
             <div class="extra-data-section display-none row">
-                <label>Note</label>
+                <label>Message</label>
                 <div class="row-data">
                     <div class="extra-data"></div>
                 </div>
