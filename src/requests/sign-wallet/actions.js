@@ -23,7 +23,7 @@ export function signWalletTransaction(pin ) {
                     value: tx.value / SATOSHIS,
                     fee: tx.fee / SATOSHIS,
                     validityStartHeight: tx.validityStartHeight,
-                    signature: tx.signature.serialize(),
+                    signature: signatureProof.signature.serialize(),
                     extraData: Utf8Tools.utf8ByteArrayToString(tx.data),
                     hash: tx.hash().toBase64()
                 })
