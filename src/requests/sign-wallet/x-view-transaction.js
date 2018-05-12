@@ -35,6 +35,13 @@ export default class XViewTransaction extends MixinRedux(XElement) {
                     <x-address-no-copy recipient></x-address-no-copy>
                 </div>
             </div>
+            
+             <div class="extra-data-section display-none row">
+                <label>Message</label>
+                <div class="row-data">
+                    <div class="extra-data"></div>
+                </div>
+            </div>
         
             <div class="fee-section display-none row">
                 <label>Fee</label>
@@ -80,7 +87,7 @@ export default class XViewTransaction extends MixinRedux(XElement) {
         const { transaction, myLabel } = changes;
 
         if (transaction) {
-            const { sender, recipient, value, fee } = transaction;
+            const { sender, recipient, value, fee, extraData } = transaction;
 
             this.$senderAddress.address = sender;
             this.$senderIdenticon.address = sender;
@@ -89,6 +96,11 @@ export default class XViewTransaction extends MixinRedux(XElement) {
             this.$recipientIdenticon.address = recipient;
 
             this.$('.value').textContent = (value/1e5).toString();
+
+            if (extraData && extraData.length > 0) {
+                this.$('.extra-data-section').classList.remove('display-none');
+                this.$('.extra-data').textContent = extraData;
+            }
 
             if (fee !== 0) {
                 this.$('.fee-section').classList.remove('display-none');
