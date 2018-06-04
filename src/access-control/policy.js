@@ -1,6 +1,7 @@
 import WalletPolicy from './wallet-policy.js';
 import MinerPolicy from './miner-policy.js';
 import SafePolicy from './safe-policy.js';
+import GiveawayPolicy from './giveaway-policy.js';
 
 export default class Policy {
 
@@ -18,6 +19,6 @@ export default class Policy {
 }
 
 Policy.predefined = {};
-for (const policy of [WalletPolicy, SafePolicy, MinerPolicy]) {
+for (const policy of [WalletPolicy, SafePolicy, MinerPolicy, GiveawayPolicy]) {
     Policy.predefined[policy.name] = policy;
 }

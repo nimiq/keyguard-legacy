@@ -4,6 +4,7 @@ import AccessControl from './access-control/access-control.js';
 import SafePolicy from './access-control/safe-policy.js';
 //import WalletPolicy from './access-control/wallet-policy.js';
 import MinerPolicy from './access-control/miner-policy.js';
+import GiveawayPolicy from './access-control/giveaway-policy.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import store from './store.js';
 import XKeyguard from './x-keyguard.js';
@@ -48,6 +49,10 @@ class Keyguard {
             {
                 origin: Config.origin('miner'),
                 policy: new MinerPolicy()
+            },
+            {
+                origin: Config.origin('giveaway'),
+                policy: new GiveawayPolicy()
             }
         ];
 
