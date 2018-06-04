@@ -52,7 +52,6 @@ export default class XCreateWallet extends MixinRedux(XElement) {
 
     _onChooseIdenticon(address) {
         this.actions.setData(RequestTypes.CREATE_WALLET, { address } );
-        this.actions.setData(RequestTypes.CREATE_WALLET, { label: 'Miner Account' });
         this._router.goTo(this, 'set-pin');
     }
 

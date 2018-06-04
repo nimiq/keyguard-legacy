@@ -148,8 +148,10 @@ export default class KeyguardApi {
         return this._startRequest(RequestTypes.CREATE_SAFE);
     }
 
-    async createWallet() {
-        return this._startRequest(RequestTypes.CREATE_WALLET);
+    async createWallet(label = 'Miner Account') {
+        return this._startRequest(RequestTypes.CREATE_WALLET, {
+            label
+        });
     }
 
     // todo later: test if transaction or generic message and react accordingly
