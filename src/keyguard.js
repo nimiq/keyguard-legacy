@@ -57,7 +57,7 @@ class Keyguard {
         ];
 
         // cancel request when window is closed
-        self.onunload = () => {
+        self.onbeforeunload = () => {
             const { reject, result }  = store.getState().request;
             if (reject && !result){
                 reject(new Error('Keyguard window was closed.'));
