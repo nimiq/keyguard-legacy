@@ -5,6 +5,7 @@ import SafePolicy from './access-control/safe-policy.js';
 //import WalletPolicy from './access-control/wallet-policy.js';
 import MinerPolicy from './access-control/miner-policy.js';
 import PromoPolicy from './access-control/promo-policy.js';
+import ShopPolicy from './access-control/shop-policy.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import store from './store.js';
 import XKeyguard from './x-keyguard.js';
@@ -53,6 +54,10 @@ class Keyguard {
             {
                 origin: Config.origin('promo'),
                 policy: new PromoPolicy()
+            },
+            {
+                origin: Config.origin('shop'),
+                policy: new ShopPolicy()
             }
         ];
 
