@@ -1,3 +1,5 @@
+import BasePolicy from './base-policy.js';
+
 export default class PromoPolicy extends BasePolicy {
     allows(method, args, state) {
         switch (method) {
