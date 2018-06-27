@@ -20,6 +20,7 @@ export default class SafePolicy extends BasePolicy {
                 return true;
             case 'signSafe':
             case 'signWallet':
+            case 'signVesting':
                 // for now, assume there are only keys we are able to use in safe app
                 return true;
                 /*const [ userFriendlyAddress, recipient, value, fee ] = args;
@@ -47,6 +48,7 @@ export default class SafePolicy extends BasePolicy {
             case 'backupWords':
             case 'signSafe':
             case 'signWallet':
+            case 'signVesting':
             case 'rename':
                 return true;
             default:
