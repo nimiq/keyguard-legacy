@@ -4,6 +4,7 @@ import { keyStore } from '../keys/index.js';
 export const RequestTypes = {
     SIGN_SAFE_TRANSACTION: 'sign-safe-transaction',
     SIGN_WALLET_TRANSACTION: 'sign-wallet-transaction',
+    SIGN_VESTING_TRANSACTION: 'sign-vesting-transaction',
     SIGN_MESSAGE: 'sign-message',
     CREATE_SAFE: 'create-safe',
     CREATE_WALLET: 'create-wallet',

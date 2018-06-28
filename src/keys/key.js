@@ -100,6 +100,35 @@ export default class Key {
     }
 
     /**
+     * Sign Transaction that is signed by the owner of this Key
+     * @param {Address} sender Address of the transaction sending vesting contract
+     * @param {number} value Number of Satoshis to send.
+     * @param {number} fee Number of Satoshis to donate to the Miner.
+     * @param {number} validityStartHeight The validityStartHeight for the transaction.
+     * @param {string} extraData Text to add to the transaction, requires extended format
+     * @returns {Transaction} A prepared and signed Transaction object. This still has to be sent to the network.
+     */
+    async createVestingTransaction(sender, value, fee, validityStartHeight, extraData) {
+        if (typeof sender === 'string') {
+            sender = await Key.getUnfriendlyAddress(sender);
+        }
+
+        const transaction = new Nimiq.ExtendedTransaction(
+            sender, Nimiq.Account.Type.VESTING,
+            this._keyPair.publicKey.toAddress(), Nimiq.Account.Type.BASIC,
+            value,
+            fee,
+            validityStartHeight,
+            Nimiq.Transaction.Flag.NONE,
+            Utf8Tools.stringToUtf8ByteArray(extraData),
+        );
+        const signature = Nimiq.Signature.create(this._keyPair.privateKey, this._keyPair.publicKey, transaction.serializeContent());
+        const proof = Nimiq.SignatureProof.singleSig(this._keyPair.publicKey, signature);
+        transaction.proof = proof.serialize();
+        return transaction;
+    }
+
+    /**
      * Sign a transaction by the owner of this Wallet.
      * @param {Transaction} transaction The transaction to sign.
      * @returns {SignatureProof} A signature proof for this transaction.

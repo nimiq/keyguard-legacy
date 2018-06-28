@@ -6,6 +6,7 @@ import XImportWords from './requests/import-words/x-import-words.js';
 import XImportFile from './requests/import-file/x-import-file.js';
 import XSignSafe from './requests/sign-safe/x-sign-safe.js';
 import XSignWallet from './requests/sign-wallet/x-sign-wallet.js';
+import XSignVesting from './requests/sign-vesting/x-sign-vesting.js';
 import XBackupFile from './requests/backup-file/x-backup-file.js';
 import XBackupWords from './requests/backup-words/x-backup-words.js';
 import XRename from './requests/rename/x-rename.js';
@@ -33,6 +34,9 @@ function getRequestElement(requestType) {
 
         case RequestTypes.SIGN_WALLET_TRANSACTION:
             return XSignWallet;
+
+        case RequestTypes.SIGN_VESTING_TRANSACTION:
+            return XSignVesting;
 
         case RequestTypes.BACKUP_WORDS:
             return XBackupWords;
