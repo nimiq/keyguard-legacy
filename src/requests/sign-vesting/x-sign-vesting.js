@@ -10,7 +10,7 @@ export default class XSignVesting extends MixinRedux(XElement) {
 
     html() { return `
         <h1>Authorize Transaction</h1>
-        <h2>Enter your passphrase below to authorize this transaction:</h2>
+        <h2>Enter the passphrase of the receiving account below to authorize this transaction:</h2>
 
         <div class="transaction">
             <div class="center">
