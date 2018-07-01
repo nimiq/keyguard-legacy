@@ -164,15 +164,15 @@ export default class KeyguardApi {
             }
         }
 
-        return guardedAction;
+        return guardedAction();
     }
 
     async createSafe() {
-        return await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.CREATE_SAFE));
+        return await this._preventSafariKeyOverflow(() => this._startRequest(RequestTypes.CREATE_SAFE));
     }
 
     async createWallet(label = 'Miner Account') {
-        return await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.CREATE_WALLET, {
+        return await this._preventSafariKeyOverflow(() => this._startRequest(RequestTypes.CREATE_WALLET, {
             label
         }));
     }
@@ -239,11 +239,11 @@ export default class KeyguardApi {
     }
 
     async importFromFile() {
-        return await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.IMPORT_FROM_FILE));
+        return await this._preventSafariKeyOverflow(() => this._startRequest(RequestTypes.IMPORT_FROM_FILE));
     }
 
     async importFromWords() {
-        await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.IMPORT_FROM_WORDS));
+        await this._preventSafariKeyOverflow(() => this._startRequest(RequestTypes.IMPORT_FROM_WORDS));
     }
 
     async backupFile(address) {
