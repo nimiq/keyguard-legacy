@@ -7,6 +7,7 @@ import { start, loadAccountData } from './request-redux.js';
 import XRouter from '/secure-elements/x-router/x-router.js';
 import { RequestTypes } from './request-redux.js';
 import BrowserDetection from '/libraries/secure-utils/browser-detection/browser-detection.js';
+import { TooManyAccountsIOSError, TooManyAccountsSafariError } from '/libraries/keyguard/src/errors/index.js';
 
 export default class KeyguardApi {
 
@@ -144,14 +145,36 @@ export default class KeyguardApi {
         });
     }
 
+    /** Checks if there are already 10 keys and we are in Safari / iOS where keys are stored in cookie. In that case
+     * there is no space for another key.
+     *
+     * @return {Promise<any>}
+     * @private
+     */
+    async _preventSafariKeyOverflow(guardedAction) {
+        if (BrowserDetection.isIOS() || BrowserDetection.isSafari()) {
+            const keys = await keyStore.list();
+            if (keys.length >= 10) {
+                self.close();
+                if (BrowserDetection.isIOS()) {
+                    throw new TooManyAccountsIOSError();
+                } else if (BrowserDetection.isSafari()) {
+                    throw new TooManyAccountsSafariError();
+                }
+            }
+        }
+
+        return guardedAction;
+    }
+
     async createSafe() {
-        return this._startRequest(RequestTypes.CREATE_SAFE);
+        return await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.CREATE_SAFE));
     }
 
     async createWallet(label = 'Miner Account') {
-        return this._startRequest(RequestTypes.CREATE_WALLET, {
+        return await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.CREATE_WALLET, {
             label
-        });
+        }));
     }
 
     // todo later: test if transaction or generic message and react accordingly
@@ -215,12 +238,12 @@ export default class KeyguardApi {
         });
     }
 
-    importFromFile() {
-        return this._startRequest(RequestTypes.IMPORT_FROM_FILE);
+    async importFromFile() {
+        return await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.IMPORT_FROM_FILE));
     }
 
-    importFromWords() {
-        return this._startRequest(RequestTypes.IMPORT_FROM_WORDS);
+    async importFromWords() {
+        await this._preventSafariKeyOverflow(this._startRequest(RequestTypes.IMPORT_FROM_WORDS));
     }
 
     async backupFile(address) {
