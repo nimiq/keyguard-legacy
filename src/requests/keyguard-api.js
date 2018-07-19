@@ -243,7 +243,7 @@ export default class KeyguardApi {
     }
 
     async importFromWords() {
-        await this._preventSafariKeyOverflow(() => this._startRequest(RequestTypes.IMPORT_FROM_WORDS));
+        return await this._preventSafariKeyOverflow(() => this._startRequest(RequestTypes.IMPORT_FROM_WORDS));
     }
 
     async backupFile(address) {
