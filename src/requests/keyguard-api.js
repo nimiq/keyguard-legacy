@@ -48,8 +48,7 @@ export default class KeyguardApi {
         const firstMinerKey = keys.find(key => key.label === 'Miner Account');
         if (firstMinerKey) return firstMinerKey;
 
-        // Return first Safe key or NULL
-        return keys.find(key => key.type === KeyType.HIGH) || null;
+        return keys.find(key => key.type === KeyType.HIGH) || keys.find(key => key.type === KeyType.LOW) || null;
     }
 
     /*createVolatile(number) {
