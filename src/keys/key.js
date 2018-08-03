@@ -65,7 +65,7 @@ export default class Key {
      * @param {number} value Number of Satoshis to send.
      * @param {number} fee Number of Satoshis to donate to the Miner.
      * @param {number} validityStartHeight The validityStartHeight for the transaction.
-     * @param {string} extraData Text to add to the transaction, requires extended format
+     * @param {string|Uint8Array} extraData Text to add to the transaction, requires extended format
      * @param {string} format basic or extended
      * @returns {Transaction} A prepared and signed Transaction object. This still has to be sent to the network.
      */
@@ -81,6 +81,10 @@ export default class Key {
         }
 
         if (format === 'extended') {
+            if (typeof extraData === 'string') {
+                extraData = Utf8Tools.stringToUtf8ByteArray(extraData)
+            }
+
             const transaction = new Nimiq.ExtendedTransaction(
                 this._keyPair.publicKey.toAddress(), Nimiq.Account.Type.BASIC,
                 recipient, Nimiq.Account.Type.BASIC,
@@ -88,7 +92,7 @@ export default class Key {
                 fee,
                 validityStartHeight,
                 Nimiq.Transaction.Flag.NONE,
-                Utf8Tools.stringToUtf8ByteArray(extraData),
+                extraData
             );
             const signature = Nimiq.Signature.create(this._keyPair.privateKey, this._keyPair.publicKey, transaction.serializeContent());
             const proof = Nimiq.SignatureProof.singleSig(this._keyPair.publicKey, signature);

@@ -24,7 +24,7 @@ export function signSafeTransaction(passphrase) {
                     fee: tx.fee / SATOSHIS,
                     validityStartHeight: tx.validityStartHeight,
                     signature: signatureProof.signature.serialize(),
-                    extraData: Utf8Tools.utf8ByteArrayToString(tx.data),
+                    extraData: tx.data,
                     hash: tx.hash().toBase64()
                 })
             )
