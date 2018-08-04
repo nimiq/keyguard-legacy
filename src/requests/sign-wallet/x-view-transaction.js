@@ -4,6 +4,7 @@ import XIdenticon from '/secure-elements/x-identicon/x-identicon.js';
 import XAddressNoCopy from '/secure-elements/x-address-no-copy/x-address-no-copy.js';
 import MixinRedux from '/secure-elements/mixin-redux/mixin-redux.js';
 import { RequestTypes } from '/libraries/keyguard/src/requests/request-redux.js';
+import TransactionTags from '/libraries/keyguard/src/transaction-tags.js';
 
 export default class XViewTransaction extends MixinRedux(XElement) {
 
@@ -99,8 +100,12 @@ export default class XViewTransaction extends MixinRedux(XElement) {
             this.$('.value').textContent = (value/1e5).toString();
 
             if (extraData && extraData.length > 0) {
+                const message = Nimiq.BufferUtils.equals(extraData, TransactionTags.SendCashlink)
+                    ? 'Sign this transaction to create a cashlink.'
+                    : UTF8Tools.utf8ByteArrayToString(extraData);
+
                 this.$('.extra-data-section').classList.remove('display-none');
-                this.$('.extra-data').textContent = UTF8Tools.utf8ByteArrayToString(extraData);
+                this.$('.extra-data').textContent = message;
             }
 
             if (fee !== 0) {
