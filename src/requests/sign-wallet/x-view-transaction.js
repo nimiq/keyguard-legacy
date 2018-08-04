@@ -1,3 +1,4 @@
+import UTF8Tools from '/libraries/secure-utils/utf8-tools/utf8-tools.js';
 import XElement from '/libraries/x-element/x-element.js';
 import XIdenticon from '/secure-elements/x-identicon/x-identicon.js';
 import XAddressNoCopy from '/secure-elements/x-address-no-copy/x-address-no-copy.js';
@@ -99,7 +100,7 @@ export default class XViewTransaction extends MixinRedux(XElement) {
 
             if (extraData && extraData.length > 0) {
                 this.$('.extra-data-section').classList.remove('display-none');
-                this.$('.extra-data').textContent = extraData;
+                this.$('.extra-data').textContent = UTF8Tools.utf8ByteArrayToString(extraData);
             }
 
             if (fee !== 0) {
