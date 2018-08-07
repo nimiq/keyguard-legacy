@@ -31,7 +31,7 @@ export default class XViewTransaction extends MixinRedux(XElement) {
                 </div>
             </div>
         
-            <div class="row">
+            <div class="row recipient">
                 <label>To</label>
                 <div class="row-data">
                     <x-address-no-copy recipient></x-address-no-copy>
@@ -39,7 +39,7 @@ export default class XViewTransaction extends MixinRedux(XElement) {
             </div>
             
              <div class="extra-data-section display-none row">
-                <label>Message</label>
+                <label class="message">Message</label>
                 <div class="row-data">
                     <div class="extra-data"></div>
                 </div>
@@ -55,7 +55,7 @@ export default class XViewTransaction extends MixinRedux(XElement) {
         
         <x-grow></x-grow>
         
-        <button>Enter PIN</button>
+        <button>Proceed with PIN</button>
         `;
     }
 
@@ -67,6 +67,13 @@ export default class XViewTransaction extends MixinRedux(XElement) {
         this.$recipientAddress = this.$addressNoCopy[1];
 
         super.onCreate();
+
+        this.$h1 = this.$('h1');
+        this.$h2 = this.$('h2');
+        this.$arrow = this.$('.arrow');
+        this.$recipient = this.$('[recipient]');
+        this.$message = this.$('.message');
+        this.$recipientRow = this.$('.row.recipient');
     }
 
     children() {
@@ -100,12 +107,18 @@ export default class XViewTransaction extends MixinRedux(XElement) {
             this.$('.value').textContent = (value/1e5).toString();
 
             if (extraData && extraData.length > 0) {
-                const message = Nimiq.BufferUtils.equals(extraData, TransactionTags.SendCashlink)
-                    ? 'Sign this transaction to create a cashlink.'
-                    : UTF8Tools.utf8ByteArrayToString(extraData);
-
-                this.$('.extra-data-section').classList.remove('display-none');
-                this.$('.extra-data').textContent = message;
+                if (Nimiq.BufferUtils.equals(extraData, TransactionTags.SendCashlink)) {
+                    this.$h1.textContent = 'Create cashlink';
+                    this.$h2.textContent = 'Authorize cashlink creation';
+                    this.$recipient.classList.add('display-none');
+                    this.$arrow.classList.add('display-none');
+                    this.$message.classList.add('display-none');
+                    this.$recipientRow.classList.add('display-none');
+                } else {
+                    const message = UTF8Tools.utf8ByteArrayToString(extraData);
+                    this.$('.extra-data-section').classList.remove('display-none');
+                    this.$('.extra-data').textContent = message;
+                }
             }
 
             if (fee !== 0) {
