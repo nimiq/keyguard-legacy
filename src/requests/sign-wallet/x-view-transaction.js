@@ -73,7 +73,6 @@ export default class XViewTransaction extends MixinRedux(XElement) {
         this.$arrow = this.$('.arrow');
         this.$recipient = this.$('[recipient]');
         this.$message = this.$('.message');
-        this.$recipientRow = this.$('.row.recipient');
     }
 
     children() {
@@ -113,7 +112,6 @@ export default class XViewTransaction extends MixinRedux(XElement) {
                     this.$recipient.classList.add('display-none');
                     this.$arrow.classList.add('display-none');
                     this.$message.classList.add('display-none');
-                    this.$recipientRow.classList.add('display-none');
                 } else {
                     const message = UTF8Tools.utf8ByteArrayToString(extraData);
                     this.$('.extra-data-section').classList.remove('display-none');
