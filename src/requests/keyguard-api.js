@@ -280,7 +280,6 @@ export default class KeyguardApi {
 
         const key = await keyStore.getPlain(address);
         if (key.type !== KeyType.LOW) throw new Error('Unauthorized: Address is not a Wallet account');
-        if (key.label !== 'Miner Account') throw new Error('Unauthorized: Only Miner accounts can be upgraded');
 
         return this._startRequest(RequestTypes.UPGRADE, {
             address
