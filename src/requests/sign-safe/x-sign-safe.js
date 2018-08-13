@@ -115,8 +115,8 @@ export default class XSignSafe extends MixinRedux(XElement) {
 
             if (extraData && extraData.length > 0) {
                 if (Nimiq.BufferUtils.equals(extraData, TransactionTags.SendCashlink)) {
-                    this.$h1.textContent = 'Create cashlink';
-                    this.$h2.textContent = 'Enter your passphrase below to authorize cashlink creation';
+                    this.$h1.textContent = 'Create Cashlink';
+                    this.$h2.textContent = 'Enter your passphrase below to authorize Cashlink creation';
                     this.$recipient.classList.add('display-none');
                     this.$arrow.classList.add('display-none');
                     this.$message.classList.add('display-none');
