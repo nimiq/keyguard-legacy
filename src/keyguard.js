@@ -6,6 +6,7 @@ import SafePolicy from './access-control/safe-policy.js';
 import MinerPolicy from './access-control/miner-policy.js';
 import PromoPolicy from './access-control/promo-policy.js';
 import ShopPolicy from './access-control/shop-policy.js';
+import FaucetPolicy from './access-control/faucet-policy.js';
 import Config from '/libraries/secure-utils/config/config.js';
 import store from './store.js';
 import XKeyguard from './x-keyguard.js';
@@ -58,7 +59,11 @@ class Keyguard {
             {
                 origin: Config.origin('shop'),
                 policy: new ShopPolicy()
-            }
+            },
+            {
+                origin: Config.origin('faucet'),
+                policy: new FaucetPolicy()
+            },
         ];
 
         // cancel request when window is closed
