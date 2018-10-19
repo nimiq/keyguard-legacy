@@ -3,7 +3,7 @@ import MinerPolicy from './miner-policy.js';
 import SafePolicy from './safe-policy.js';
 import PromoPolicy from './promo-policy.js';
 import ShopPolicy from './shop-policy.js';
-import FaucetPolicy from './faucet-policy.js';
+import GetSomeAppPolicy from './getsome-app-policy.js';
 
 export default class Policy {
 
@@ -21,6 +21,6 @@ export default class Policy {
 }
 
 Policy.predefined = {};
-for (const policy of [/*WalletPolicy, */SafePolicy, MinerPolicy, PromoPolicy, ShopPolicy, FaucetPolicy]) {
+for (const policy of [/*WalletPolicy, */SafePolicy, MinerPolicy, PromoPolicy, ShopPolicy, GetSomeAppPolicy]) {
     Policy.predefined[policy.name] = policy;
 }

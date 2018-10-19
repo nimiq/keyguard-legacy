@@ -1,6 +1,6 @@
 import BasePolicy from './base-policy.js';
 
-export default class FaucetPolicy extends BasePolicy {
+export default class GetSomeAppPolicy extends BasePolicy {
     allows(method, args, state) {
         switch (method) {
             case 'list':
