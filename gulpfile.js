@@ -17,8 +17,8 @@ gulp.task('build', gulp.series('clean', () => NimiqBuild.build({
 })));
 
 gulp.task('build-iframe', gulp.series('build', () => NimiqBuild.build({
-    jsEntry: 'src/keyguard.js',
-    cssEntry: 'src/keyguard.css',
+    jsEntry: 'src/keyguard-iframe.js',
+    cssEntry: null,
     htmlEntry: 'src/iframe.html',
     rootPath: `${__dirname}/../../`,
     distPath: 'deployment-keyguard/dist',
@@ -34,8 +34,8 @@ gulp.task('build-test', gulp.series('clean-test', () => NimiqBuild.build({
 })));
 
 gulp.task('build-test-iframe', gulp.series('build-test', () => NimiqBuild.build({
-    jsEntry: 'src/keyguard.js',
-    cssEntry: 'src/keyguard.css',
+    jsEntry: 'src/keyguard-iframe.js',
+    cssEntry: null,
     htmlEntry: 'src/iframe.html',
     rootPath: `${__dirname}/../../`,
     distPath: 'deployment-keyguard/dist-test'
